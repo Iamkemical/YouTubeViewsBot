@@ -1,10 +1,13 @@
-﻿using OpenQA.Selenium.Firefox;
+﻿using OpenQA.Selenium;
+using OpenQA.Selenium.Firefox;
+using OpenQA.Selenium.Interactions;
+using OpenQA.Selenium.Interactions.Internal;
 using System;
 using System.Threading;
 
 namespace YouTubeViewsBot
 {
-    class Bot
+    public class Bot
     {
         static void Main(string[] args)
         {
@@ -12,7 +15,7 @@ namespace YouTubeViewsBot
             Startup();
 
             // Initializes the youtube video
-            ViewVideo();
+            ViewVideo("https://www.youtube.com/watch?v=oEILJYhx1RQ", 1000);
         }
 
         public static FirefoxDriver fireFoxDriver;
@@ -27,22 +30,26 @@ namespace YouTubeViewsBot
             fireFoxDriver = new FirefoxDriver(firefoxDriverService, options);
         }
 
-        static void ViewVideo()
+        
+        static void ViewVideo(string url, int noOfViews)
         {
             // Go the link of the video
-            string url = "https://www.youtube.com/watch?v=oEILJYhx1RQ";
             fireFoxDriver.Navigate().GoToUrl(url);
 
+            ConsoleLog.ConsoleLogger("Video launched successfully!");
 
-            // No of views of the video
-            int noOfViews = 1000;
+            Thread.Sleep(1000);
 
             // Iterates the number of times the video is viewed
             for (int i = 1; i <= noOfViews; i++)
             {
-                Thread.Sleep(10000);
+                Thread.Sleep(5000);
+                Actions action = new Actions(fireFoxDriver);
+                IWebElement webElementLocator = fireFoxDriver.FindElementById("primary");
+
+                action.Click(webElementLocator).Perform();
+
                 fireFoxDriver.Navigate().Refresh();
-                
                 ConsoleLog.ConsoleLogger($"Video viewed {i} times");
             }
             fireFoxDriver.Quit();
