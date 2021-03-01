@@ -24,7 +24,7 @@ namespace YouTubeViewsBot
             FirefoxOptions options = new FirefoxOptions();
 
             // Makes browser to hide
-            //options.AddArgument("--headless");
+            options.AddArgument("--headless");
             FirefoxDriverService firefoxDriverService = FirefoxDriverService.CreateDefaultService();
             firefoxDriverService.HideCommandPromptWindow = true;
             fireFoxDriver = new FirefoxDriver(firefoxDriverService, options);
@@ -43,7 +43,7 @@ namespace YouTubeViewsBot
             // Iterates the number of times the video is viewed
             for (int i = 1; i <= noOfViews; i++)
             {
-                Thread.Sleep(5000);
+                Thread.Sleep(10000);
                 Actions action = new Actions(fireFoxDriver);
                 IWebElement webElementLocator = fireFoxDriver.FindElementById("primary");
 
